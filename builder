@@ -1,62 +1,63 @@
 #!/bin/bash
 
-echo "--> BUILDING apsl/thumbor"
-docker build -f thumbor/Dockerfile -t apsl/thumbor thumbor/
+docker pull gingerlime/thumbor:latest
+echo "--> BUILDING gingerlime/thumbor"
+docker build --cache-from gingerlime/thumbor:latest -f thumbor/Dockerfile -t gingerlime/thumbor:latest thumbor/
 # introspecting version by running the built image
-THUMBOR_VERSION=`docker run --rm apsl/thumbor bash -c "pip freeze |grep ^thumbor== | cut -d= -f 3"`
+THUMBOR_VERSION=`docker run --rm gingerlime/thumbor bash -c "pip freeze |grep ^thumbor== | cut -d= -f 3"`
 echo "THUMBOR VERSION: $THUMBOR_VERSION"
 
-echo "--> TAGGING apsl/thumbor:$THUMBOR_VERSION"
-docker tag apsl/thumbor apsl/thumbor:$THUMBOR_VERSION
-echo "--> TAGGING apsl/thumbor:latest"
-docker tag apsl/thumbor apsl/thumbor:latest
+echo "--> TAGGING gingerlime/thumbor:$THUMBOR_VERSION"
+docker tag gingerlime/thumbor gingerlime/thumbor:$THUMBOR_VERSION
+echo "--> TAGGING gingerlime/thumbor:latest"
+docker tag gingerlime/thumbor gingerlime/thumbor:latest
 
-echo "--> BUILDING apsl/thumbor:simd-sse4"
-docker build --build-arg SIMD_LEVEL=sse4 -f thumbor/Dockerfile -t apsl/thumbor-simd-sse4 thumbor/
-echo "--> TAGGING apsl/thumbor:$THUMBOR_VERSION-simd-sse4"
-docker tag apsl/thumbor-simd-sse4 apsl/thumbor:$THUMBOR_VERSION-simd-sse4
-echo "--> TAGGING apsl/thumbor:latest-simd-sse4"
-docker tag apsl/thumbor-simd-sse4 apsl/thumbor:latest-simd-sse4
+echo "--> BUILDING gingerlime/thumbor:simd-sse4"
+docker build --build-arg SIMD_LEVEL=sse4 -f thumbor/Dockerfile -t gingerlime/thumbor-simd-sse4 thumbor/
+echo "--> TAGGING gingerlime/thumbor:$THUMBOR_VERSION-simd-sse4"
+docker tag gingerlime/thumbor-simd-sse4 gingerlime/thumbor:$THUMBOR_VERSION-simd-sse4
+echo "--> TAGGING gingerlime/thumbor:latest-simd-sse4"
+docker tag gingerlime/thumbor-simd-sse4 gingerlime/thumbor:latest-simd-sse4
 
-echo "--> BUILDING apsl/thumbor:simd-avx2"
-docker build --build-arg SIMD_LEVEL=avx2  -f thumbor/Dockerfile -t apsl/thumbor-simd-avx2 thumbor/
-echo "--> TAGGING apsl/thumbor:$THUMBOR_VERSION-simd-avx2"
-docker tag apsl/thumbor-simd-avx2 apsl/thumbor:$THUMBOR_VERSION-simd-avx2
-echo "--> TAGGING apsl/thumbor:latest-simd-avx2"
-docker tag apsl/thumbor-simd-avx2 apsl/thumbor:latest-simd-avx2
+echo "--> BUILDING gingerlime/thumbor:simd-avx2"
+docker build --build-arg SIMD_LEVEL=avx2  -f thumbor/Dockerfile -t gingerlime/thumbor-simd-avx2 thumbor/
+echo "--> TAGGING gingerlime/thumbor:$THUMBOR_VERSION-simd-avx2"
+docker tag gingerlime/thumbor-simd-avx2 gingerlime/thumbor:$THUMBOR_VERSION-simd-avx2
+echo "--> TAGGING gingerlime/thumbor:latest-simd-avx2"
+docker tag gingerlime/thumbor-simd-avx2 gingerlime/thumbor:latest-simd-avx2
 
-echo "--> BUILDING apsl/thumbor-multiprocess"
-docker build --build-arg THUMBOR_TAG=latest -f thumbor-multiprocess/Dockerfile -t apsl/thumbor-multiprocess thumbor-multiprocess/
-echo "--> TAGGING apsl/thumbor-multiprocess:$THUMBOR_VERSION"
-docker tag apsl/thumbor-multiprocess apsl/thumbor-multiprocess:$THUMBOR_VERSION
-echo "--> TAGGING apsl/thumbor-multiprocess:latest"
-docker tag apsl/thumbor-multiprocess apsl/thumbor-multiprocess:latest
+echo "--> BUILDING gingerlime/thumbor-multiprocess"
+docker build --build-arg THUMBOR_TAG=latest -f thumbor-multiprocess/Dockerfile -t gingerlime/thumbor-multiprocess thumbor-multiprocess/
+echo "--> TAGGING gingerlime/thumbor-multiprocess:$THUMBOR_VERSION"
+docker tag gingerlime/thumbor-multiprocess gingerlime/thumbor-multiprocess:$THUMBOR_VERSION
+echo "--> TAGGING gingerlime/thumbor-multiprocess:latest"
+docker tag gingerlime/thumbor-multiprocess gingerlime/thumbor-multiprocess:latest
 
-echo "--> BUILDING apsl/thumbor-multiprocess:simd-sse4"
-docker build --build-arg THUMBOR_TAG=latest-simd-sse4 -f thumbor-multiprocess/Dockerfile -t apsl/thumbor-multiprocess-simd-sse4 thumbor-multiprocess/
-echo "--> TAGGING apsl/thumbor-multiprocess:$THUMBOR_VERSION-simd-sse4"
-docker tag apsl/thumbor-simd-sse4 apsl/thumbor-multiprocess:$THUMBOR_VERSION-simd-sse4
-echo "--> TAGGING apsl/thumbor-multiprocess:latest-simd-sse4"
-docker tag apsl/thumbor-simd-sse4 apsl/thumbor-multiprocess:latest-simd-sse4
+echo "--> BUILDING gingerlime/thumbor-multiprocess:simd-sse4"
+docker build --build-arg THUMBOR_TAG=latest-simd-sse4 -f thumbor-multiprocess/Dockerfile -t gingerlime/thumbor-multiprocess-simd-sse4 thumbor-multiprocess/
+echo "--> TAGGING gingerlime/thumbor-multiprocess:$THUMBOR_VERSION-simd-sse4"
+docker tag gingerlime/thumbor-simd-sse4 gingerlime/thumbor-multiprocess:$THUMBOR_VERSION-simd-sse4
+echo "--> TAGGING gingerlime/thumbor-multiprocess:latest-simd-sse4"
+docker tag gingerlime/thumbor-simd-sse4 gingerlime/thumbor-multiprocess:latest-simd-sse4
 
-echo "--> BUILDING apsl/thumbor-multiprocess:simd-avx2"
-docker build --build-arg THUMBOR_TAG=latest-simd-avx2 -f thumbor-multiprocess/Dockerfile -t apsl/thumbor-multiprocess-simd-sse4 thumbor-multiprocess/
-echo "--> TAGGING apsl/thumbor-multiprocess:$THUMBOR_VERSION-simd-avx2"
-docker tag apsl/thumbor-simd-avx2 apsl/thumbor-multiprocess:$THUMBOR_VERSION-simd-avx2
-echo "--> TAGGING apsl/thumbor-multiprocess:latest-simd-avx2"
-docker tag apsl/thumbor-simd-avx2 apsl/thumbor-multiprocess:latest-simd-avx2
+echo "--> BUILDING gingerlime/thumbor-multiprocess:simd-avx2"
+docker build --build-arg THUMBOR_TAG=latest-simd-avx2 -f thumbor-multiprocess/Dockerfile -t gingerlime/thumbor-multiprocess-simd-sse4 thumbor-multiprocess/
+echo "--> TAGGING gingerlime/thumbor-multiprocess:$THUMBOR_VERSION-simd-avx2"
+docker tag gingerlime/thumbor-simd-avx2 gingerlime/thumbor-multiprocess:$THUMBOR_VERSION-simd-avx2
+echo "--> TAGGING gingerlime/thumbor-multiprocess:latest-simd-avx2"
+docker tag gingerlime/thumbor-simd-avx2 gingerlime/thumbor-multiprocess:latest-simd-avx2
 
-echo "--> BUILDING apsl/thumbor-nginx"
-docker build -f nginx/Dockerfile -t apsl/thumbor-nginx nginx/
-echo "--> TAGGING apsl/thumbor-nginx:$THUMBOR_VERSION"
-docker tag apsl/thumbor-nginx apsl/thumbor-nginx:$THUMBOR_VERSION
-echo "--> TAGGING apsl/thumbor-nginx:latest"
-docker tag apsl/thumbor-nginx apsl/thumbor-nginx:latest
+echo "--> BUILDING gingerlime/thumbor-nginx"
+docker build -f nginx/Dockerfile -t gingerlime/thumbor-nginx nginx/
+echo "--> TAGGING gingerlime/thumbor-nginx:$THUMBOR_VERSION"
+docker tag gingerlime/thumbor-nginx gingerlime/thumbor-nginx:$THUMBOR_VERSION
+echo "--> TAGGING gingerlime/thumbor-nginx:latest"
+docker tag gingerlime/thumbor-nginx gingerlime/thumbor-nginx:latest
 
-echo "--> BUILDING apsl/remotecv"
-docker build --build-arg THUMBOR_TAG=latest -f remotecv/Dockerfile -t apsl/remotecv remotecv/
-echo "--> TAGGING apsl/remotecv:$THUMBOR_VERSION"
-docker tag apsl/remotecv apsl/remotecv:$THUMBOR_VERSION
-echo "--> TAGGING apsl/remotecv:latest"
-docker tag apsl/remotecv apsl/remotecv:latest
+echo "--> BUILDING gingerlime/remotecv"
+docker build --build-arg THUMBOR_TAG=latest -f remotecv/Dockerfile -t gingerlime/remotecv remotecv/
+echo "--> TAGGING gingerlime/remotecv:$THUMBOR_VERSION"
+docker tag gingerlime/remotecv gingerlime/remotecv:$THUMBOR_VERSION
+echo "--> TAGGING gingerlime/remotecv:latest"
+docker tag gingerlime/remotecv gingerlime/remotecv:latest
 

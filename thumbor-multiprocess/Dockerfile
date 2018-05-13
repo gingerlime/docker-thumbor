@@ -1,5 +1,5 @@
 ARG THUMBOR_TAG=latest
-FROM apsl/thumbor:$THUMBOR_TAG
+FROM gingerlime/thumbor:$THUMBOR_TAG
 
 MAINTAINER Edu Herraiz <ghark@gmail.com>
 
